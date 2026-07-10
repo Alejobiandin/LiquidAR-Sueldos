@@ -43,6 +43,7 @@ const defaultDatos: DatosLiquidacion = {
 
 export default function Home() {
   const [seccionActiva, setSeccionActiva] = useState<Seccion>("inicio");
+  const [sidebarAbierto, setSidebarAbierto] = useState(false);
   const [datos, setDatos] = useState<DatosLiquidacion>(defaultDatos);
   const [resultado, setResultado] = useState<ResultadoLiquidacion | null>(null);
   const [mostrarRecibo, setMostrarRecibo] = useState(false);
@@ -75,10 +76,32 @@ export default function Home() {
       <Sidebar
         seccionActiva={seccionActiva}
         onCambiarSeccion={setSeccionActiva}
+        open={sidebarAbierto}
+        onClose={() => setSidebarAbierto(false)}
       />
 
       {/* Main Content */}
-      <main className="flex-1 overflow-auto">
+      <main className="flex-1 overflow-auto min-w-0">
+        {/* Topbar móvil */}
+        <div
+          className="md:hidden flex items-center gap-3 px-4 py-3 border-b border-border bg-card sticky top-0 z-20"
+        >
+          <button
+            onClick={() => setSidebarAbierto(true)}
+            className="w-8 h-8 flex items-center justify-center rounded-lg shrink-0"
+            style={{ background: "var(--navy)", color: "white" }}
+            aria-label="Abrir menú"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <line x1="3" y1="12" x2="21" y2="12"/>
+              <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+          </button>
+          <img src="/logo.svg" alt="LiquidAR" className="w-6 h-6" />
+          <span className="text-sm font-bold" style={{ fontFamily: "Sora, sans-serif" }}>LiquidAR</span>
+        </div>
+
         {seccionActiva === "inicio" && (
           <LandingHero onIrALiquidador={handleIrALiquidador} />
         )}
@@ -86,10 +109,10 @@ export default function Home() {
         {seccionActiva === "liquidador" && (
           <div className="min-h-screen">
             {/* Header */}
-            <div className="border-b border-border bg-card px-6 py-4 sticky top-0 z-10">
-              <div className="flex items-center justify-between">
+            <div className="border-b border-border bg-card px-4 sm:px-6 py-4 md:sticky md:top-0 z-10">
+              <div className="flex items-center justify-between flex-wrap gap-3">
                 <div>
-                  <h1 className="text-xl font-semibold text-foreground" style={{ fontFamily: "Sora, sans-serif" }}>
+                  <h1 className="text-lg sm:text-xl font-semibold text-foreground" style={{ fontFamily: "Sora, sans-serif" }}>
                     Liquidación de Haberes
                   </h1>
                   <p className="text-sm text-muted-foreground mt-0.5">

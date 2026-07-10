@@ -8,6 +8,8 @@ import type { Seccion } from "@/pages/Home";
 interface SidebarProps {
   seccionActiva: Seccion;
   onCambiarSeccion: (seccion: Seccion) => void;
+  open?: boolean;
+  onClose?: () => void;
 }
 
 const navItems: { id: Seccion; label: string; icon: React.ReactNode; descripcion: string }[] = [
@@ -73,14 +75,26 @@ const navItems: { id: Seccion; label: string; icon: React.ReactNode; descripcion
   },
 ];
 
-export default function Sidebar({ seccionActiva, onCambiarSeccion }: SidebarProps) {
+export default function Sidebar({ seccionActiva, onCambiarSeccion, open = false, onClose }: SidebarProps) {
   return (
-    <aside
-      className="w-[220px] min-h-screen flex flex-col shrink-0"
-      style={{ background: "var(--navy)" }}
-    >
+    <>
+      {/* Overlay (solo mobile, cuando el drawer está abierto) */}
+      {open && (
+        <div
+          className="fixed inset-0 z-30 md:hidden"
+          style={{ background: "oklch(0 0 0 / 0.5)" }}
+          onClick={onClose}
+        />
+      )}
+
+      <aside
+        className={`w-[220px] min-h-screen flex flex-col shrink-0 fixed inset-y-0 left-0 z-40 transition-transform duration-200 md:static md:translate-x-0 ${
+          open ? "translate-x-0" : "-translate-x-full"
+        }`}
+        style={{ background: "var(--navy)" }}
+      >
       {/* Logo */}
-      <div className="px-4 py-5 border-b" style={{ borderColor: "oklch(0.35 0.07 250)" }}>
+      <div className="px-4 py-5 border-b flex items-center justify-between" style={{ borderColor: "oklch(0.35 0.07 250)" }}>
         <div className="flex items-center gap-3">
           <div
             className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 overflow-hidden"
@@ -104,6 +118,18 @@ export default function Sidebar({ seccionActiva, onCambiarSeccion }: SidebarProp
             </div>
           </div>
         </div>
+        {/* Botón cerrar (solo mobile) */}
+        <button
+          onClick={onClose}
+          className="md:hidden w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
+          style={{ background: "oklch(0.35 0.07 250)", color: "white" }}
+          aria-label="Cerrar menú"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
       </div>
 
       {/* Navigation */}
@@ -114,7 +140,10 @@ export default function Sidebar({ seccionActiva, onCambiarSeccion }: SidebarProp
         {navItems.map((item) => (
           <button
             key={item.id}
-            onClick={() => onCambiarSeccion(item.id)}
+            onClick={() => {
+              onCambiarSeccion(item.id);
+              onClose?.();
+            }}
             className={`nav-item w-full text-left ${seccionActiva === item.id ? "active" : ""}`}
           >
             <span className="shrink-0">{item.icon}</span>
@@ -138,6 +167,7 @@ export default function Sidebar({ seccionActiva, onCambiarSeccion }: SidebarProp
           <span className="text-xs" style={{ color: "oklch(0.65 0.04 250)" }}>CCT vigentes</span>
         </div>
       </div>
-    </aside>
+      </aside>
+    </>
   );
 }

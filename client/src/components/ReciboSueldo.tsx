@@ -45,7 +45,7 @@ export default function ReciboSueldo({ resultado, datosEmpleado, onCerrar }: Rec
       <div className="w-full max-w-3xl max-h-[95vh] overflow-auto rounded-2xl shadow-2xl m-4">
         {/* Toolbar */}
         <div
-          className="flex items-center justify-between px-5 py-3 no-print rounded-t-2xl"
+          className="flex items-center justify-between flex-wrap gap-2 px-4 sm:px-5 py-3 no-print rounded-t-2xl"
           style={{ background: "var(--navy)" }}
         >
           <div className="flex items-center gap-3">
@@ -121,7 +121,7 @@ export default function ReciboSueldo({ resultado, datosEmpleado, onCerrar }: Rec
 
           {/* Datos del empleado */}
           <div className="px-6 py-4 border-b border-gray-200">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <div className="text-xs text-gray-500 uppercase tracking-wide mb-0.5">Apellido y Nombre</div>
                 <div className="text-sm font-semibold text-gray-900">{nombreCompleto}</div>
@@ -201,7 +201,7 @@ export default function ReciboSueldo({ resultado, datosEmpleado, onCerrar }: Rec
             className="px-6 py-4 mx-6 mb-6 rounded-lg"
             style={{ background: "#f8fafc", border: "1px solid #e2e8f0" }}
           >
-            <div className="grid grid-cols-3 gap-4 mb-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-3">
               <div className="text-center">
                 <div className="text-xs text-gray-500 uppercase tracking-wide mb-1">Total Haberes</div>
                 <div
@@ -235,7 +235,7 @@ export default function ReciboSueldo({ resultado, datosEmpleado, onCerrar }: Rec
           </div>
 
           {/* Firmas */}
-          <div className="px-6 pb-6 grid grid-cols-2 gap-8">
+          <div className="px-4 sm:px-6 pb-6 grid grid-cols-1 sm:grid-cols-2 gap-8">
             <div className="text-center">
               <div className="border-t border-gray-300 pt-2 mt-8">
                 <div className="text-xs text-gray-500">Firma y Aclaración del Empleador</div>
