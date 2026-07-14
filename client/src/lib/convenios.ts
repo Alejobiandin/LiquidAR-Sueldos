@@ -479,6 +479,11 @@ export interface DatosLiquidacion {
   diasTrabajados: number; // 30 = mes completo
   tipoEmpleador: "grande" | "pyme"; // Para contribuciones patronales
   adicionalesPersonalizados: AdicionalesPersonalizados;
+  // ── Fuera de Convenio ─────────────────────────────────────
+  // Cuando fueraConvenio = true, se ignora convenio/categoría y se
+  // usa el básico manual ingresado por el usuario.
+  fueraConvenio?: boolean;
+  basicoManual?: number; // Salario básico bruto mensual manual
 }
 
 export interface AdicionalesPersonalizados {
@@ -529,9 +534,37 @@ export interface ResultadoLiquidacion {
   };
 }
 
+// Convenio "virtual" utilizado para liquidaciones fuera de convenio.
+export const CONVENIO_FUERA: Convenio = {
+  id: "fuera_convenio",
+  numero: "S/C",
+  nombre: "Fuera de Convenio",
+  sindicato: "—",
+  sector: "Personal fuera de convenio",
+  tipoJornada: "mensual",
+  horasSemana: 48,
+  descripcion:
+    "Personal jerárquico o fuera de todo convenio colectivo. El salario básico se define manualmente.",
+  vigencia: "—",
+  categorias: [],
+  adicionales: [],
+};
+
 export function calcularLiquidacion(datos: DatosLiquidacion): ResultadoLiquidacion {
-  const convenio = CONVENIOS.find((c) => c.id === datos.convenioId)!;
-  const categoria = convenio.categorias.find((c) => c.id === datos.categoriaId)!;
+  const esFueraConvenio = datos.fueraConvenio === true;
+
+  const convenio = esFueraConvenio
+    ? CONVENIO_FUERA
+    : CONVENIOS.find((c) => c.id === datos.convenioId)!;
+
+  const categoria: Categoria = esFueraConvenio
+    ? {
+        id: "fuera_convenio",
+        nombre: "Sueldo básico manual",
+        salarioBasico: datos.basicoManual ?? 0,
+        descripcion: "Salario básico definido manualmente",
+      }
+    : convenio.categorias.find((c) => c.id === datos.categoriaId)!;
 
   const conceptos: ConceptoLiquidacion[] = [];
 
@@ -739,11 +772,21 @@ export function calcularLiquidacion(datos: DatosLiquidacion): ResultadoLiquidaci
   // ── 9. CONTRIBUCIONES PATRONALES ──────────────────────────
   const alicuotaContrib = datos.tipoEmpleador === "pyme" ? 0.18 : 0.204;
 
-  const contribJubilacion = totalBrutoRemunerativo * CONTRIBUCIONES_EMPLEADOR.jubilacion;
-  const contribPami = totalBrutoRemunerativo * CONTRIBUCIONES_EMPLEADOR.pami;
-  const contribObraSocial = totalBrutoRemunerativo * CONTRIBUCIONES_EMPLEADOR.obraSocial;
-  const contribFondoEmpleo = totalBrutoRemunerativo * CONTRIBUCIONES_EMPLEADOR.fondoEmpleo;
+  // La alícuota total (18% PyME / 20.4% grande) se distribuye entre los
+  // componentes manteniendo su proporción relativa, de modo que la suma
+  // de los componentes sea siempre igual al total.
+  const sumaAlicuotasBase =
+    CONTRIBUCIONES_EMPLEADOR.jubilacion +
+    CONTRIBUCIONES_EMPLEADOR.pami +
+    CONTRIBUCIONES_EMPLEADOR.obraSocial +
+    CONTRIBUCIONES_EMPLEADOR.fondoEmpleo; // 25.5%
+  const factorContrib = alicuotaContrib / sumaAlicuotasBase;
+
   const totalContribuciones = totalBrutoRemunerativo * alicuotaContrib;
+  const contribJubilacion = totalBrutoRemunerativo * CONTRIBUCIONES_EMPLEADOR.jubilacion * factorContrib;
+  const contribPami = totalBrutoRemunerativo * CONTRIBUCIONES_EMPLEADOR.pami * factorContrib;
+  const contribObraSocial = totalBrutoRemunerativo * CONTRIBUCIONES_EMPLEADOR.obraSocial * factorContrib;
+  const contribFondoEmpleo = totalBrutoRemunerativo * CONTRIBUCIONES_EMPLEADOR.fondoEmpleo * factorContrib;
 
   const costoEmpleador = totalBruto + totalContribuciones + SEGURO_VIDA_OBLIGATORIO;
 

@@ -13,6 +13,7 @@ import ConveniosInfo from "@/components/ConveniosInfo";
 import AguinaldoCalc from "@/components/AguinaldoCalc";
 import IndemnizacionCalc from "@/components/IndemnizacionCalc";
 import LandingHero from "@/components/LandingHero";
+import NominaMasiva from "@/components/NominaMasiva";
 import {
   calcularLiquidacion,
   type DatosLiquidacion,
@@ -44,6 +45,7 @@ const defaultDatos: DatosLiquidacion = {
 export default function Home() {
   const [seccionActiva, setSeccionActiva] = useState<Seccion>("inicio");
   const [sidebarAbierto, setSidebarAbierto] = useState(false);
+  const [modoLiquidacion, setModoLiquidacion] = useState<"unitario" | "masivo">("unitario");
   const [datos, setDatos] = useState<DatosLiquidacion>(defaultDatos);
   const [resultado, setResultado] = useState<ResultadoLiquidacion | null>(null);
   const [mostrarRecibo, setMostrarRecibo] = useState(false);
@@ -116,48 +118,77 @@ export default function Home() {
                     Liquidación de Haberes
                   </h1>
                   <p className="text-sm text-muted-foreground mt-0.5">
-                    Cálculo en tiempo real — Todos los CCT vigentes
+                    {modoLiquidacion === "unitario"
+                      ? "Cálculo en tiempo real — Todos los CCT vigentes"
+                      : "Liquidación masiva por nómina — CSV / Excel"}
                   </p>
                 </div>
-                {resultado && (
-                  <button
-                    onClick={() => setMostrarRecibo(true)}
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-150 active:scale-[0.97]"
-                    style={{
-                      background: "var(--gold)",
-                      color: "oklch(0.15 0.05 85)",
-                    }}
-                  >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                      <polyline points="14 2 14 8 20 8"/>
-                    </svg>
-                    Ver Recibo
-                  </button>
-                )}
+                <div className="flex items-center gap-3">
+                  {/* Toggle Unitario / Masivo */}
+                  <div className="flex rounded-lg border border-border overflow-hidden">
+                    {([
+                      { id: "unitario" as const, label: "Unitario" },
+                      { id: "masivo" as const, label: "Masivo" },
+                    ]).map((modo) => (
+                      <button
+                        key={modo.id}
+                        onClick={() => setModoLiquidacion(modo.id)}
+                        className="px-3 sm:px-4 py-2 text-sm font-medium transition-all duration-150"
+                        style={{
+                          background: modoLiquidacion === modo.id ? "var(--navy)" : "transparent",
+                          color: modoLiquidacion === modo.id ? "white" : "var(--muted-foreground)",
+                        }}
+                      >
+                        {modo.label}
+                      </button>
+                    ))}
+                  </div>
+                  {modoLiquidacion === "unitario" && resultado && (
+                    <button
+                      onClick={() => setMostrarRecibo(true)}
+                      className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-150 active:scale-[0.97]"
+                      style={{
+                        background: "var(--gold)",
+                        color: "oklch(0.15 0.05 85)",
+                      }}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                      </svg>
+                      Ver Recibo
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
 
-            {/* Content Grid */}
-            <div className="grid grid-cols-1 xl:grid-cols-[420px_1fr] gap-0 min-h-[calc(100vh-73px)]">
-              {/* Form Panel */}
-              <div className="border-r border-border bg-card/50 overflow-auto">
-                <LiquidadorForm
-                  datos={datos}
-                  datosEmpleado={datosEmpleado}
-                  onDatosChange={handleCalcular}
-                  onDatosEmpleadoChange={setDatosEmpleado}
-                />
-              </div>
+            {/* Content */}
+            {modoLiquidacion === "unitario" ? (
+              <div className="grid grid-cols-1 xl:grid-cols-[420px_1fr] gap-0 min-h-[calc(100vh-73px)]">
+                {/* Form Panel */}
+                <div className="border-r border-border bg-card/50 overflow-auto">
+                  <LiquidadorForm
+                    datos={datos}
+                    datosEmpleado={datosEmpleado}
+                    onDatosChange={handleCalcular}
+                    onDatosEmpleadoChange={setDatosEmpleado}
+                  />
+                </div>
 
-              {/* Results Panel */}
-              <div className="overflow-auto bg-background">
-                <ResultadosPanel
-                  resultado={resultado}
-                  onVerRecibo={() => setMostrarRecibo(true)}
-                />
+                {/* Results Panel */}
+                <div className="overflow-auto bg-background">
+                  <ResultadosPanel
+                    resultado={resultado}
+                    onVerRecibo={() => setMostrarRecibo(true)}
+                  />
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="max-w-5xl mx-auto w-full">
+                <NominaMasiva />
+              </div>
+            )}
           </div>
         )}
 

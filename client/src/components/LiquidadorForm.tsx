@@ -73,6 +73,8 @@ export default function LiquidadorForm({
   const [localDatos, setLocalDatos] = useState<DatosLiquidacion>(datos);
   const [tabActivo, setTabActivo] = useState<"empleado" | "liquidacion">("liquidacion");
 
+  const esFueraConvenio = localDatos.fueraConvenio === true;
+
   const convenioActual = CONVENIOS.find((c) => c.id === localDatos.convenioId)!;
   const categoriasDisponibles = convenioActual?.categorias ?? [];
   const adicionalesDisponibles = convenioActual?.adicionales.filter(
@@ -97,6 +99,17 @@ export default function LiquidadorForm({
     value: DatosLiquidacion[K]
   ) => {
     const nuevoDatos = { ...localDatos, [key]: value };
+    setLocalDatos(nuevoDatos);
+    onDatosChange(nuevoDatos);
+  };
+
+  const handleFueraConvenioToggle = (fuera: boolean) => {
+    const nuevoDatos: DatosLiquidacion = {
+      ...localDatos,
+      fueraConvenio: fuera,
+      basicoManual: fuera ? localDatos.basicoManual || 1_500_000 : localDatos.basicoManual,
+      adicionales: [],
+    };
     setLocalDatos(nuevoDatos);
     onDatosChange(nuevoDatos);
   };
@@ -195,7 +208,56 @@ export default function LiquidadorForm({
               </div>
             </div>
 
+            {/* Modo: Dentro / Fuera de Convenio */}
+            <div>
+              <SectionTitle>Modalidad</SectionTitle>
+              <div className="grid grid-cols-2 gap-2">
+                {[
+                  { fuera: false, label: "Bajo Convenio", sub: "Según CCT" },
+                  { fuera: true, label: "Fuera de Convenio", sub: "Básico manual" },
+                ].map((modo) => (
+                  <button
+                    key={modo.label}
+                    onClick={() => handleFueraConvenioToggle(modo.fuera)}
+                    className="p-3 rounded-lg border text-left transition-all duration-150"
+                    style={{
+                      borderColor: esFueraConvenio === modo.fuera ? "var(--navy)" : "var(--border)",
+                      background: esFueraConvenio === modo.fuera ? "oklch(0.96 0.005 250)" : "transparent",
+                    }}
+                  >
+                    <div className="text-sm font-medium text-foreground">{modo.label}</div>
+                    <div className="text-xs text-muted-foreground mt-0.5">{modo.sub}</div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Básico Manual (Fuera de Convenio) */}
+            {esFueraConvenio && (
+              <div>
+                <SectionTitle>Salario Básico</SectionTitle>
+                <div>
+                  <FieldLabel tooltip="Salario básico bruto mensual del empleado fuera de convenio">
+                    Básico bruto mensual ($)
+                  </FieldLabel>
+                  <input
+                    type="number"
+                    min={0}
+                    className={inputClass}
+                    placeholder="1.500.000"
+                    value={localDatos.basicoManual || ""}
+                    onChange={(e) => handleChange("basicoManual", parseFloat(e.target.value) || 0)}
+                    style={{ fontFamily: "JetBrains Mono, monospace" }}
+                  />
+                  <p className="text-xs text-muted-foreground mt-1.5">
+                    Personal jerárquico o fuera de todo CCT. Aportes y contribuciones estándar.
+                  </p>
+                </div>
+              </div>
+            )}
+
             {/* Convenio y Categoría */}
+            {!esFueraConvenio && (
             <div>
               <SectionTitle>Convenio Colectivo</SectionTitle>
               <div className="space-y-3">
@@ -254,6 +316,7 @@ export default function LiquidadorForm({
                 </div>
               </div>
             </div>
+            )}
 
             {/* Antigüedad y Presentismo */}
             <div>
