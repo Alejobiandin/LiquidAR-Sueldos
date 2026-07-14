@@ -461,6 +461,223 @@ export const CONVENIOS: Convenio[] = [
       { id: "adicional_frio", nombre: "Trabajo en Frío", tipo: "porcentaje", valor: 20, base: "basico", obligatorio: false, descripcion: "Adicional por trabajo en cámaras frigoríficas" },
     ],
   },
+
+  // ─────────────────────────────────────────────────────────
+  // TRABAJADORES RURALES (UATRE) — Régimen de Trabajo Agrario
+  // ─────────────────────────────────────────────────────────
+  {
+    id: "rural",
+    numero: "S/N — RTA (Ley 26.727)",
+    nombre: "Trabajadores Rurales (UATRE)",
+    sindicato: "UATRE",
+    sector: "Trabajo Agrario",
+    tipoJornada: "mensual",
+    horasSemana: 44,
+    descripcion:
+      "Aplica a trabajadores permanentes del sector agropecuario: peones, tractoristas, aplicadores de fitosanitarios y personal de riego y cosecha, bajo el Régimen de Trabajo Agrario (Ley 26.727).",
+    vigencia: "Acuerdo may-sep 2026 (Disposición DI-2026-643-APN-DNRYRT#MCH)",
+    categorias: [
+      { id: "peon_general", nombre: "Peón General", salarioBasico: 1_088_358, descripcion: "Trabajador sin especialización, tareas generales de campo" },
+      { id: "peon_auxiliar_fitosanitarios", nombre: "Peón Auxiliar (Fitosanitarios)", salarioBasico: 1_761_297, descripcion: "Aplicación de productos fitosanitarios" },
+      { id: "conductor_tractorista_cosecha", nombre: "Tractorista / Maquinista de Cosechadora", salarioBasico: 1_666_581, descripcion: "Afectado exclusivamente a cosecha de granos y oleaginosas" },
+      { id: "trabajador_calificado_riego", nombre: "Trabajador Calificado de Riego", salarioBasico: 1_378_570, descripcion: "Actividad olivícola — riego calificado" },
+      { id: "encargado_rural", nombre: "Encargado de Establecimiento", salarioBasico: 1_483_215, descripcion: "Responsable de establecimiento agropecuario" },
+      { id: "conductor_equipos_autopropulsados", nombre: "Conductor de Equipos Autopropulsados", salarioBasico: 2_545_139, descripcion: "Categoría mejor remunerada del convenio rural" },
+    ],
+    adicionales: [
+      { id: "antiguedad", nombre: "Antigüedad", tipo: "porcentaje", valor: 1, base: "basico", obligatorio: true, descripcion: "1% del básico por año hasta los 10 años; 1,5% por año a partir del año 11 (ajustar manualmente para antigüedades mayores a 10 años)" },
+      { id: "zona_desfavorable_rural", nombre: "Zona Desfavorable", tipo: "porcentaje", valor: 20, base: "basico", obligatorio: false, descripcion: "Adicional para tareas en Chubut, Santa Cruz, Tierra del Fuego, Antártida e Islas del Atlántico Sur" },
+      { id: "presentismo_rural", nombre: "Presentismo", tipo: "porcentaje", valor: 8.33, base: "basico", obligatorio: false, descripcion: "Premio por asistencia perfecta (según convenio de empresa)" },
+    ],
+  },
+
+  // ─────────────────────────────────────────────────────────
+  // SEGURIDAD PRIVADA (UPSRA)
+  // ─────────────────────────────────────────────────────────
+  {
+    id: "seguridad_privada",
+    numero: "507/07",
+    nombre: "Seguridad Privada (UPSRA)",
+    sindicato: "UPSRA",
+    sector: "Seguridad Privada",
+    tipoJornada: "mensual",
+    horasSemana: 44,
+    descripcion:
+      "Aplica a vigiladores, operadores de monitoreo, técnicos y personal administrativo de empresas de seguridad privada (CCT 507/07, CAESI-UPSRA).",
+    vigencia: "Acta acuerdo enero-junio 2026 (CAESI-UPSRA)",
+    categorias: [
+      { id: "vigilador_general", nombre: "Vigilador General", salarioBasico: 911_650, descripcion: "Vigilador sin especialización" },
+      { id: "vigilador_bombero", nombre: "Vigilador Bombero", salarioBasico: 953_950, descripcion: "Vigilador con formación en prevención de incendios" },
+      { id: "operador_monitoreo", nombre: "Operador de Monitoreo", salarioBasico: 953_950, descripcion: "Operador de central de monitoreo" },
+      { id: "vigilador_principal", nombre: "Vigilador Principal", salarioBasico: 995_700, descripcion: "Vigilador con mayor responsabilidad o antigüedad" },
+      { id: "administrativo_seguridad", nombre: "Administrativo / Guía Técnico", salarioBasico: 973_900, descripcion: "Personal administrativo y guías técnicos" },
+      { id: "tecnico_instalador", nombre: "Técnico Instalador", salarioBasico: 1_050_000, descripcion: "Técnico instalador de sistemas de seguridad" },
+    ],
+    adicionales: [
+      { id: "antiguedad", nombre: "Antigüedad", tipo: "porcentaje", valor: 1, base: "basico", obligatorio: true, descripcion: "1% por año de antigüedad" },
+      { id: "presentismo_seguridad", nombre: "Presentismo", tipo: "porcentaje", valor: 18, base: "basico", obligatorio: false, descripcion: "Premio por presentismo — particularmente alto en este convenio" },
+      { id: "viaticos_seguridad", nombre: "Viáticos", tipo: "fijo", valor: 498_000, base: "basico", obligatorio: false, descripcion: "Viáticos por traslado al puesto de trabajo" },
+    ],
+  },
+
+  // ─────────────────────────────────────────────────────────
+  // ENCARGADOS DE EDIFICIOS (SUTERH / FATERYH)
+  // ─────────────────────────────────────────────────────────
+  {
+    id: "encargados_edificios",
+    numero: "589/10",
+    nombre: "Encargados de Edificios (SUTERH / FATERYH)",
+    sindicato: "SUTERH / FATERYH",
+    sector: "Propiedad Horizontal",
+    tipoJornada: "mensual",
+    horasSemana: 40,
+    descripcion:
+      "Aplica a encargados, mayordomos y personal de edificios de renta y propiedad horizontal (CCT 589/10).",
+    vigencia: "Acuerdo julio 2026",
+    categorias: [
+      { id: "encargado_4ta_vivienda", nombre: "Encargado 4ª Cat. (con vivienda)", salarioBasico: 978_275, descripcion: "4ª categoría, con vivienda" },
+      { id: "encargado_3ra_vivienda", nombre: "Encargado 3ª Cat. (con vivienda)", salarioBasico: 1_076_103, descripcion: "3ª categoría, con vivienda" },
+      { id: "encargado_2da_vivienda", nombre: "Encargado 2ª Cat. (con vivienda)", salarioBasico: 1_125_017, descripcion: "2ª categoría, con vivienda" },
+      { id: "encargado_1ra_vivienda", nombre: "Encargado 1ª Cat. (con vivienda)", salarioBasico: 1_173_930, descripcion: "1ª categoría, con vivienda" },
+      { id: "encargado_4ta_sin_vivienda", nombre: "Encargado 4ª Cat. (sin vivienda)", salarioBasico: 1_123_693, descripcion: "4ª categoría, sin vivienda" },
+      { id: "encargado_1ra_sin_vivienda", nombre: "Encargado 1ª Cat. (sin vivienda)", salarioBasico: 1_348_432, descripcion: "1ª categoría, sin vivienda" },
+      { id: "mayordomo", nombre: "Mayordomo (sin vivienda)", salarioBasico: 1_396_203, descripcion: "Mayordomo, sin vivienda, 1ª categoría" },
+      { id: "intendente", nombre: "Intendente", salarioBasico: 1_638_992, descripcion: "Intendente de edificio (todas las categorías)" },
+      { id: "vigilancia_nocturna", nombre: "Vigilancia Nocturna", salarioBasico: 1_202_729, descripcion: "Personal de vigilancia nocturna" },
+      { id: "ayudante_media_jornada", nombre: "Ayudante Media Jornada", salarioBasico: 674_216, descripcion: "Ayudante, media jornada, 1ª categoría" },
+    ],
+    adicionales: [
+      { id: "antiguedad", nombre: "Antigüedad", tipo: "porcentaje", valor: 1, base: "basico", obligatorio: true, descripcion: "1% por año de antigüedad, calculado sobre el básico" },
+      { id: "retiro_residuos", nombre: "Retiro y Clasificación de Residuos", tipo: "fijo", valor: 45_000, base: "basico", obligatorio: false, descripcion: "Plus por retiro y clasificación de residuos (monto de referencia, varía por edificio)" },
+      { id: "limpieza_cocheras", nombre: "Limpieza de Cocheras", tipo: "fijo", valor: 35_000, base: "basico", obligatorio: false, descripcion: "Plus por limpieza de cocheras (monto de referencia)" },
+      { id: "snr_julio2026", nombre: "Suma Remunerativa Julio 2026", tipo: "fijo", valor: 30_000, base: "basico", obligatorio: false, descripcion: "Suma remunerativa mensual incorporada en julio 2026 (jornada completa; proporcional en otros casos)" },
+    ],
+  },
+
+  // ─────────────────────────────────────────────────────────
+  // TRANSPORTE DE PASAJEROS — COLECTIVOS (UTA)
+  // ─────────────────────────────────────────────────────────
+  {
+    id: "transporte_pasajeros",
+    numero: "460/73",
+    nombre: "Transporte de Pasajeros (UTA)",
+    sindicato: "UTA",
+    sector: "Transporte Automotor de Pasajeros",
+    tipoJornada: "mensual",
+    horasSemana: 48,
+    descripcion:
+      "Aplica a choferes, guardas, inspectores y personal de taller de empresas de transporte público de pasajeros (colectivos).",
+    vigencia: "Escala AMBA — básico abril 2026 (paritaria de julio en negociación)",
+    categorias: [
+      { id: "conductor_urbano", nombre: "Conductor Urbano", salarioBasico: 1_545_278, descripcion: "Chofer de colectivo, servicios urbanos y suburbanos (AMBA)" },
+      { id: "conductor_interurbano", nombre: "Conductor Interurbano", salarioBasico: 1_622_500, descripcion: "Chofer de corta y media distancia" },
+      { id: "conductor_larga_distancia", nombre: "Conductor Larga Distancia", salarioBasico: 1_777_000, descripcion: "Chofer de larga distancia (más de 300 km)" },
+      { id: "guarda_inspector", nombre: "Guarda / Inspector", salarioBasico: 1_390_750, descripcion: "Guarda o inspector de servicio" },
+      { id: "encargado_taller_uta", nombre: "Encargado de Taller", salarioBasico: 1_699_800, descripcion: "Encargado de taller y mantenimiento" },
+      { id: "mecanico_1ra_uta", nombre: "Mecánico de 1ª", salarioBasico: 1_622_500, descripcion: "Mecánico de primera" },
+      { id: "mecanico_2da_uta", nombre: "Mecánico de 2ª", salarioBasico: 1_421_650, descripcion: "Mecánico de segunda" },
+      { id: "ayudante_mecanico_uta", nombre: "Ayudante de Mecánico", salarioBasico: 1_158_950, descripcion: "Ayudante de mecánico" },
+      { id: "administrativo_transporte", nombre: "Administrativo", salarioBasico: 1_313_500, descripcion: "Personal administrativo de la empresa de transporte" },
+    ],
+    adicionales: [
+      { id: "antiguedad", nombre: "Antigüedad", tipo: "porcentaje", valor: 1, base: "basico", obligatorio: true, descripcion: "1% del básico por año, sin tope de años" },
+      { id: "viaticos_transporte", nombre: "Viáticos", tipo: "fijo", valor: 456_000, base: "basico", obligatorio: false, descripcion: "Viáticos mensuales (referencia abril 2026)" },
+      { id: "nocturnidad_transporte", nombre: "Nocturnidad (21 a 6 hs)", tipo: "porcentaje", valor: 30, base: "basico", obligatorio: false, descripcion: "Recargo por trabajo nocturno" },
+      { id: "feriado_transporte", nombre: "Feriados Trabajados", tipo: "porcentaje", valor: 100, base: "basico", obligatorio: false, descripcion: "Recargo por trabajo en feriados nacionales" },
+      { id: "presentismo_transporte", nombre: "Presentismo", tipo: "porcentaje", valor: 8.33, base: "basico", obligatorio: false, descripcion: "Premio por presentismo (varía según empresa)" },
+    ],
+  },
+
+  // ─────────────────────────────────────────────────────────
+  // ESTACIONES DE SERVICIO, GNC, GARAGES Y LAVADEROS (SOESGyPE)
+  // ─────────────────────────────────────────────────────────
+  {
+    id: "estaciones_servicio",
+    numero: "521/07",
+    nombre: "Estaciones de Servicio, GNC y Lavaderos (SOESGyPE)",
+    sindicato: "SOESGyPE",
+    sector: "Combustibles y Servicios Automotor",
+    tipoJornada: "mensual",
+    horasSemana: 48,
+    descripcion:
+      "Aplica a playeros, operadores de servicio, administrativos y encargados de estaciones de servicio, GNC, garages, playas de estacionamiento y lavaderos.",
+    vigencia: "Escala julio 2026 (SOESGyPE-FECRA), vigente hasta el 31/07/2026",
+    categorias: [
+      { id: "operador_auxiliar_est", nombre: "Operador Auxiliar", salarioBasico: 1_502_600, descripcion: "Personal de ingreso, tareas auxiliares" },
+      { id: "operador_playa", nombre: "Operador de Playa (Playero)", salarioBasico: 1_545_472, descripcion: "Despacho de combustible y atención al surtidor" },
+      { id: "operador_conductor_est", nombre: "Operador Conductor", salarioBasico: 1_534_970, descripcion: "Conducción de vehículos dentro del predio" },
+      { id: "operador_servicio", nombre: "Operador de Servicio", salarioBasico: 1_564_269, descripcion: "Lavado, engrase y servicios adicionales" },
+      { id: "administrativo_est", nombre: "Administrativo", salarioBasico: 1_570_824, descripcion: "Personal administrativo de la estación" },
+      { id: "encargado_est", nombre: "Encargado", salarioBasico: 1_600_406, descripcion: "Responsable del turno o del establecimiento" },
+    ],
+    adicionales: [
+      { id: "antiguedad", nombre: "Antigüedad", tipo: "porcentaje", valor: 1, base: "basico", obligatorio: true, descripcion: "1% por año de antigüedad" },
+      { id: "presentismo_est", nombre: "Presentismo", tipo: "porcentaje", valor: 8.33, base: "basico", obligatorio: false, descripcion: "Premio mensual por asistencia perfecta" },
+      { id: "nocturnidad_est", nombre: "Nocturnidad", tipo: "porcentaje", valor: 20, base: "basico", obligatorio: false, descripcion: "Recargo por trabajo nocturno" },
+    ],
+  },
+
+  // ─────────────────────────────────────────────────────────
+  // INDUSTRIA GRÁFICA (FAIGA / FGB / FATIDA)
+  // ─────────────────────────────────────────────────────────
+  {
+    id: "grafica",
+    numero: "60/89 y 409/05",
+    nombre: "Industria Gráfica (FAIGA / FGB / FATIDA)",
+    sindicato: "Federación Gráfica Bonaerense / FATIDA",
+    sector: "Industria Gráfica",
+    tipoJornada: "mensual",
+    horasSemana: 44,
+    descripcion:
+      "Aplica a operarios de imprenta, encuadernación, diarios y afines. Escala verificada a marzo 2026 (última tabla en texto homologada); la actualización abril-junio 2026 está firmada pero FGB solo la publicó en formato imagen, sin cifras verificables carácter por carácter — ajustar cuando se publique en texto.",
+    vigencia: "Escala marzo 2026 (verificada) — acuerdo abril-junio 2026 homologado, pendiente de publicación en texto",
+    categorias: [
+      { id: "grafico_cat_01", nombre: "Categoría 1", salarioBasico: 1_018_377, descripcion: "Categoría inicial del escalafón" },
+      { id: "grafico_cat_03", nombre: "Categoría 3", salarioBasico: 1_095_364, descripcion: "Tareas de complejidad básica" },
+      { id: "grafico_cat_05", nombre: "Categoría 5", salarioBasico: 1_238_242, descripcion: "Operario con oficio medio" },
+      { id: "grafico_cat_07", nombre: "Categoría 7", salarioBasico: 1_438_356, descripcion: "Operario calificado" },
+      { id: "grafico_cat_09", nombre: "Categoría 9", salarioBasico: 1_676_248, descripcion: "Oficial especializado" },
+      { id: "grafico_cat_10", nombre: "Categoría 10", salarioBasico: 1_823_909, descripcion: "Categoría máxima del escalafón" },
+    ],
+    adicionales: [
+      { id: "antiguedad", nombre: "Antigüedad", tipo: "porcentaje", valor: 1, base: "basico", obligatorio: true, descripcion: "El sistema aplica 1% por año; el CCT real pacta un monto fijo por antigüedad ($12.856 a marzo 2026) — ajustar manualmente si necesitás ese valor exacto" },
+      { id: "comida_grafico", nombre: "Comida", tipo: "fijo", valor: 11_580, base: "basico", obligatorio: false, descripcion: "Adicional fijo por comida (marzo 2026)" },
+      { id: "aporte_solidario_grafico", nombre: "Aporte Solidario", tipo: "porcentaje", valor: 1.5, base: "bruto", obligatorio: true, descripcion: "1,5% sobre la remuneración integral mensual, previsto en el acuerdo paritario" },
+    ],
+  },
+
+  // ─────────────────────────────────────────────────────────
+  // INDUSTRIA DEL PLÁSTICO (UOYEP)
+  // ─────────────────────────────────────────────────────────
+  {
+    id: "plastico",
+    numero: "797/22",
+    nombre: "Industria del Plástico (UOYEP)",
+    sindicato: "UOYEP",
+    sector: "Industria del Plástico",
+    tipoJornada: "mensual",
+    horasSemana: 44,
+    descripcion:
+      "Aplica a operarios de producción, mantenimiento, choferes y personal administrativo de plantas de la industria plástica. El personal de producción y mantenimiento cobra por hora; los básicos aquí son el equivalente mensual (valor hora × 200).",
+    vigencia: "Escala julio 2026 (UOYEP-CAIP, Anexo I), vigente hasta el 31/07/2026",
+    categorias: [
+      { id: "operario_plastico", nombre: "Operario", salarioBasico: 1_229_122, jornal: 6_146, descripcion: "Producción — nivel inicial (valor hora × 200)" },
+      { id: "auxiliar_plastico", nombre: "Auxiliar", salarioBasico: 1_325_338, jornal: 6_627, descripcion: "Producción — tareas auxiliares (valor hora × 200)" },
+      { id: "operador_plastico", nombre: "Operador", salarioBasico: 1_426_222, jornal: 7_131, descripcion: "Producción — manejo de máquina (valor hora × 200)" },
+      { id: "operador_calificado_plastico", nombre: "Operador Calificado", salarioBasico: 1_490_022, jornal: 7_450, descripcion: "Producción — mayor especialización (valor hora × 200)" },
+      { id: "oficial_mantenimiento_plastico", nombre: "Oficial de Mantenimiento", salarioBasico: 1_723_268, jornal: 8_616, descripcion: "Mantenimiento — máxima categoría técnica (valor hora × 200)" },
+      { id: "nivel1_plastico", nombre: "Administrativo Nivel 1", salarioBasico: 1_229_441, descripcion: "Personal administrativo — nivel inicial" },
+      { id: "nivel3_plastico", nombre: "Administrativo Nivel 3", salarioBasico: 1_318_253, descripcion: "Personal administrativo — nivel intermedio" },
+      { id: "nivel5_plastico", nombre: "Administrativo Nivel 5", salarioBasico: 1_508_177, descripcion: "Personal administrativo — nivel superior" },
+      { id: "capataz_plastico", nombre: "Capataz", salarioBasico: 1_539_675, descripcion: "Supervisor de planta" },
+      { id: "chofer_plastico", nombre: "Chofer", salarioBasico: 1_382_061, descripcion: "Transporte pesado o interno de planta" },
+      { id: "conductor_autoelevador_plastico", nombre: "Conductor de Autoelevador", salarioBasico: 1_543_313, descripcion: "Conducción de autoelevador dentro de planta" },
+    ],
+    adicionales: [
+      { id: "antiguedad", nombre: "Antigüedad", tipo: "porcentaje", valor: 1, base: "basico", obligatorio: true, descripcion: "1% por año de antigüedad" },
+      { id: "snr_plastico_julio2026", nombre: "Suma Fija No Remunerativa", tipo: "fijo", valor: 85_000, base: "basico", obligatorio: true, descripcion: "Suma fija para todas las categorías, vigente hasta julio 2026; se incorpora al básico desde agosto 2026" },
+    ],
+  },
 ];
 
 // ============================================================
@@ -721,7 +938,9 @@ export function calcularLiquidacion(datos: DatosLiquidacion): ResultadoLiquidaci
   const aportesJubilacion = baseImponibleJubilacion * APORTES_EMPLEADO.jubilacion;
   const aportesPami = totalBrutoRemunerativo * APORTES_EMPLEADO.pami;
   const aportesObraSocial = totalBrutoRemunerativo * APORTES_EMPLEADO.obraSocial;
-  const aportesSindical = totalBrutoRemunerativo * APORTE_SINDICAL;
+  // El personal fuera de convenio no está afiliado a ningún gremio, por lo
+  // que no corresponde descontarle cuota sindical.
+  const aportesSindical = esFueraConvenio ? 0 : totalBrutoRemunerativo * APORTE_SINDICAL;
 
   const totalAportes = aportesJubilacion + aportesPami + aportesObraSocial + aportesSindical;
 
@@ -756,15 +975,17 @@ export function calcularLiquidacion(datos: DatosLiquidacion): ResultadoLiquidaci
     porcentaje: 3,
   });
 
-  conceptos.push({
-    id: "cuota_sindical",
-    nombre: "Cuota Sindical (2%)",
-    tipo: "deduccion",
-    monto: aportesSindical,
-    descripcion: `Cuota sindical — ${convenio.sindicato}`,
-    base: totalBrutoRemunerativo,
-    porcentaje: 2,
-  });
+  if (!esFueraConvenio) {
+    conceptos.push({
+      id: "cuota_sindical",
+      nombre: "Cuota Sindical (2%)",
+      tipo: "deduccion",
+      monto: aportesSindical,
+      descripcion: `Cuota sindical — ${convenio.sindicato}`,
+      base: totalBrutoRemunerativo,
+      porcentaje: 2,
+    });
+  }
 
   const totalDeducciones = totalAportes;
   const totalNeto = totalBruto - totalDeducciones;
